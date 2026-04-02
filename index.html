@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Animation 💙</title>
+<style>
+    body {
+        margin: 0;
+        background: black;
+        overflow: hidden;
+    }
+    canvas {
+        display: block;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+// Full screen
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const messages = ["I love you 💙", "Love you bbe 💙", "I love you ❤️"];
+
+let texts = [];
+
+// Create floating texts
+for (let i = 0; i < 40; i++) {
+    texts.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        text: messages[Math.floor(Math.random() * messages.length)],
+        speed: Math.random() * 1.5 + 0.5,
+        size: Math.random() * 10 + 10
+    });
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    texts.forEach(t => {
+        ctx.fillStyle = "#aeefff";
+        ctx.font = `${t.size}px Arial`;
+        ctx.fillText(t.text, t.x, t.y);
+
+        t.y -= t.speed;
+
+        // Reset when off screen
+        if (t.y < 0) {
+            t.y = canvas.height;
+            t.x = Math.random() * canvas.width;
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+// Resize handling
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
